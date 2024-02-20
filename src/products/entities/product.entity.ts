@@ -9,7 +9,7 @@ export class Product {
   @Column('text',{unique:true})
   title: string;
 
-  @Column('numeric',{default: 0})//@Column('number') no es soportado por pg
+  @Column('float',{default: 0})//@Column('number') no es soportado por pg
   price: number;
 
   @Column({
