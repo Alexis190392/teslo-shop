@@ -1,6 +1,7 @@
 import { Module } from '@nestjs/common';
 import { ConfigModule } from "@nestjs/config";
 import { TypeOrmModule } from "@nestjs/typeorm";
+import { ProductsModule } from './products/products.module';
 import * as process from "process";
 
 @Module({
@@ -16,7 +17,9 @@ import * as process from "process";
       password: process.env.DB_PASSWORD,
       autoLoadEntities: true,
       synchronize: true, //para sincronizar las entities con las columnas al modificar
-    })
+    }),
+
+    ProductsModule
   ],
 })
 export class AppModule {}
