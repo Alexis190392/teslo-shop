@@ -2,6 +2,7 @@ import { Module } from '@nestjs/common';
 import { ConfigModule } from "@nestjs/config";
 import { TypeOrmModule } from "@nestjs/typeorm";
 import { ProductsModule } from './products/products.module';
+import { CommonModule } from './common/common.module';
 import * as process from "process";
 
 @Module({
@@ -19,7 +20,9 @@ import * as process from "process";
       synchronize: true, //para sincronizar las entities con las columnas al modificar
     }),
 
-    ProductsModule
+    ProductsModule,
+
+    CommonModule
   ],
 })
 export class AppModule {}
