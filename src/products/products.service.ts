@@ -53,10 +53,7 @@ export class ProductsService {
         slug: term.toLowerCase(),
       }).getOne();
 
-
-      // product = await this.productRepository.findOneBy({slug: term});
     }
-
 
     if (!product)
       throw new NotFoundException(`El producto con el id ${term} no se encuentró`)
@@ -64,8 +61,22 @@ export class ProductsService {
     return product;
   }
 
-  update(id: number, updateProductDto: UpdateProductDto) {
-    return `This action updates a #${id} product`;
+  async update(id: string, updateProductDto: UpdateProductDto) {
+    const product = await this.productRepository.preload({ //preload: busca los productos por id y carga todas las propiedades del dto
+      id: id,
+      ...updateProductDto
+    })
+
+    if (!product)
+      throw new NotFoundException(`Producto con el id ${id} no se encontró`);
+
+    try {
+      await this.productRepository.save(product);
+      return product;
+    }catch (e) {
+      this.handleDbExceptions(e);
+    }
+
   }
 
   async remove(id: string) {
