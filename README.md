@@ -15,3 +15,7 @@ yarn install
 ```
 docker-compose up -d
 ```
+
+## Stack usado
+* Postgres
+* Nest
