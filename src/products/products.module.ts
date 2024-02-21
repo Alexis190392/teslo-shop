@@ -10,6 +10,7 @@ import { Product, ProductImage } from "./entities";
   providers: [ProductsService],
   imports: [
     TypeOrmModule.forFeature([Product, ProductImage]) //arreglo con todas las entidades que está definiendo
-  ]
+  ],
+  exports: [ ProductsService ]
 })
 export class ProductsModule {}
