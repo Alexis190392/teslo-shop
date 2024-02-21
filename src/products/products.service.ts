@@ -153,4 +153,19 @@ export class ProductsService {
     throw new InternalServerErrorException("Ayudaaaaaaaaaaaaa!")
 
   }
+
+  //para limpiar todos los productos, para uso con seed
+  async deleteAllProducts(){
+    const query= this.productImageRepository.createQueryBuilder('product');
+
+    try {
+      return await query
+        .delete()
+        .where({})
+        .execute();
+
+    } catch (e) {
+      this.handleDbExceptions(e);
+    }
+  }
 }
