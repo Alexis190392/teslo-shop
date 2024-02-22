@@ -15,14 +15,16 @@ yarn install
 ```
 docker-compose up -d
 ```
-6. Ejecutar seed para popular la bd
-```
-localhost:3000/api/seed
-```
-7. Lanzar
+6. Lanzar
 ```
 yarn start:dev
 ```
+
+7. Ejecutar seed para popular la bd
+```
+localhost:3000/api/seed
+```
+
 
 ## Stack usado
 * Postgres
