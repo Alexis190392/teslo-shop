@@ -1,6 +1,6 @@
-import {v4 as uuid} from 'uuid';
+import { v4 as uuid } from 'uuid'
 
-export const fileNamer = (req: Express.Request,file: Express.Multer.File, callback: Function)  => {
+export const fileNamer = ( req: Express.Request, file: Express.Multer.File, callback: Function ) => {
 
   if (!file) return callback( new Error('Falta archivo'), false);
 
@@ -8,5 +8,6 @@ export const fileNamer = (req: Express.Request,file: Express.Multer.File, callba
 
   const fileName = `${uuid()}.${fileExtension}`;
 
-  callback(null, false);
+
+  callback(null, fileName );
 }

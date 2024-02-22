@@ -1,32 +1,53 @@
-import { BadRequestException, Controller, Post, UploadedFiles, UseInterceptors } from "@nestjs/common";
+import { Controller, Get, Post, Param, UploadedFile, UseInterceptors, BadRequestException, Res } from '@nestjs/common';
+import { ConfigService } from '@nestjs/config';
+import { FileInterceptor } from '@nestjs/platform-express';
+import { Response } from 'express';
+import { diskStorage } from 'multer';
 import { FilesService } from './files.service';
-import { FileInterceptor } from "@nestjs/platform-express";
-import { fileFilter, fileNamer } from "./helpers";
-import { diskStorage } from "multer";
+import { fileFilter, fileNamer } from './helpers';
+
 
 @Controller('files')
 export class FilesController {
-  constructor(private readonly filesService: FilesService) {}
+  constructor(
+    private readonly filesService: FilesService,
+    private readonly configService: ConfigService,
+  ) {}
+
+  @Get('product/:imageName')
+  findProductImage(
+    @Res() res: Response,
+    @Param('imageName') imageName: string
+  ) {
+
+    const path = this.filesService.getStaticProductImage( imageName );
+
+    res.sendFile( path );
+  }
+
+
 
   @Post('product')
-  @UseInterceptors(FileInterceptor('file',{
+  @UseInterceptors( FileInterceptor('file', {
     fileFilter: fileFilter,
-    // limits: {fileSize: 1000},
-    storage: diskStorage({  //donde quiero almacenar fisicamente
-      destination: './static/uploads',
+    // limits: { fileSize: 1000 }
+    storage: diskStorage({
+      destination: './static/products',
       filename: fileNamer
     })
-  }))
-  uploadFile(
-    @UploadedFiles() file: Express.Multer.File){
+  }) )
+  uploadProductImage(
+    @UploadedFile() file: Express.Multer.File,
+  ){
 
     if (!file){
       throw new BadRequestException('Asegurese que el archivo sea admitido.')
     }
 
-    return {
-      filename: file.originalname
-    };
+    // const secureUrl = `${ file.filename }`;
+    const secureUrl = `${ this.configService.get('HOST_API') }/files/product/${ file.filename }`;
 
+    return { secureUrl };
   }
+
 }

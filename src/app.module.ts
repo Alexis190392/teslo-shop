@@ -6,6 +6,8 @@ import { CommonModule } from './common/common.module';
 import { SeedModule } from './seed/seed.module';
 import { FilesModule } from './files/files.module';
 import * as process from "process";
+import { ServeStaticModule } from "@nestjs/serve-static";
+import { join } from "path";
 
 @Module({
   imports: [
@@ -20,6 +22,10 @@ import * as process from "process";
       password: process.env.DB_PASSWORD,
       autoLoadEntities: true,
       synchronize: true, //para sincronizar las entities con las columnas al modificar
+    }),
+
+    ServeStaticModule.forRoot({
+      rootPath: join(__dirname,'..','public'),
     }),
 
     ProductsModule,
