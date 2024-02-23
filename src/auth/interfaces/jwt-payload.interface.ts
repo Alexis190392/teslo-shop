@@ -1,7 +1,7 @@
 
 
 export interface JwtPayload{
-  email: string;
+  id: string;
 
   //TODO añadir todos los valores a grabar personalizados
 }
