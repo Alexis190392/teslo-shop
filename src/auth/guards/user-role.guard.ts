@@ -1,8 +1,8 @@
 import { BadRequestException, CanActivate, ExecutionContext, ForbiddenException, Injectable } from "@nestjs/common";
 import { Observable } from 'rxjs';
 import { Reflector } from "@nestjs/core";
-import { User } from "../../entities/user.entity";
-import { META_ROLES } from "../../decorators/role-protected/role-protected.decorator";
+import { User } from "../entities/user.entity";
+import { META_ROLES } from "../decorators/role-protected.decorator";
 
 @Injectable()
 export class UserRoleGuard implements CanActivate {
@@ -37,9 +37,7 @@ export class UserRoleGuard implements CanActivate {
       }
     }
 
-    throw new ForbiddenException(`El usuario ${user.fullName} necesitar un rol válido. Su rol es: ${validRoles} `)
+    throw new ForbiddenException(`El usuario ${user.fullName} necesitar un rol válido [${validRoles}] `)
 
-
-    return true;
   }
 }
