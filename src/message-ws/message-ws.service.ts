@@ -28,6 +28,8 @@ export class MessageWsService {
     if (!user) throw new Error('Usuario no existe');
     if (!user.isActive) throw new Error('Usuario inactivo');
 
+    this.checkUserConnection(user);
+
     this.connectedClients[client.id] = {
       socket: client,
       user
@@ -45,5 +47,19 @@ export class MessageWsService {
 
   getUserFullName(socketId:string){
     return this.connectedClients[socketId].user.fullName;
+  }
+
+  //para desconectar duplicados
+  private checkUserConnection(user: User){
+    for (const clientId of Object.keys(this.connectedClients)) {
+
+      const connectedClient = this.connectedClients[clientId];
+
+      if (connectedClient.user.id === user.id){
+        //lo desconecto de la conexion anterior
+        connectedClient.socket.disconnect();
+        break;
+      }
+    }
   }
 }

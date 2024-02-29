@@ -65,7 +65,7 @@ export class MessageWsGateway implements OnGatewayConnection,OnGatewayDisconnect
 
     //Para emitir de ambos lados
     this.wss.emit('message-from-server',{
-        fullName: this.messageWsService.getUserFullName(client.id) + ':',
+        fullName: this.messageWsService.getUserFullName(client.id) + ': ',
         message: payload.message || 'no-message!!!'
       });
 
