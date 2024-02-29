@@ -8,6 +8,8 @@ import {
 import { MessageWsService } from './message-ws.service';
 import { Server, Socket } from "socket.io";
 import { NewMessageDto } from "./dtos/new-message.dto";
+import { JwtService } from "@nestjs/jwt";
+import { JwtPayload } from "../auth/interfaces";
 
 @WebSocketGateway({cors: true})
 export class MessageWsGateway implements OnGatewayConnection,OnGatewayDisconnect{
@@ -15,11 +17,21 @@ export class MessageWsGateway implements OnGatewayConnection,OnGatewayDisconnect
   @WebSocketServer() wss:Server;
 
   constructor(
-    private readonly messageWsService: MessageWsService
+    private readonly messageWsService: MessageWsService,
+    private readonly jwtService: JwtService
   ){}
 
   handleConnection(client: Socket){
     const  token = client.handshake.headers.authentication as string;
+    let payload : JwtPayload;
+    //verifico token
+    try {
+      payload = this.jwtService.verify(token);
+    }catch (e) {
+      client.disconnect();
+      return;
+    }
+
     this.messageWsService.registerClient(client);
 
     //notificar a todos --- (eventName)
