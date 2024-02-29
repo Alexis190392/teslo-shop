@@ -42,6 +42,23 @@ export class MessageWsGateway implements OnGatewayConnection,OnGatewayDisconnect
   // message-from-client
   @SubscribeMessage('message-from-client')
   handleMessageFromCliente(client: Socket, payload: NewMessageDto){
+    // Para solo a la persona que le envia el mensaje.
+    // client.emit('message-from-server',{
+    //   fullName: 'lalala!',
+    //   message: payload.message || 'no-message!!!'
+    // });
+
+    // Para todos excepto al cliente inicial.
+    // client.broadcast.emit('message-from-server',{
+    //   fullName: 'lalala!',
+    //   message: payload.message || 'no-message!!!'
+    // });
+
+    //Para emitir de ambos lados
+    this.wss.emit('message-from-server',{
+        fullName: 'lalala!',
+        message: payload.message || 'no-message!!!'
+      });
 
   }
 }
