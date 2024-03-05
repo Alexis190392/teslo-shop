@@ -24,7 +24,7 @@ yarn start:dev
 ```
 localhost:3000/api/seed
 ```
-
+8. Correr ws-client: ```https://github.com/Alexis190392/ws-client```
 
 ## Stack usado
 * Postgres
